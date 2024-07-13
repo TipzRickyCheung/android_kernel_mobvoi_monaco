@@ -4378,16 +4378,7 @@ static int bt541_ts_probe(struct i2c_client *client,
 	register_early_suspend(&info->early_suspend);
 #endif
 
-	zinitix_setup_drm_notifier(info);
-	info->seb_nb.notifier_call = zinitix_seb_notifier_cb;
-	seb_handle = seb_register_for_slate_event(GLINK_CHANNEL_STATE_UP, &info->seb_nb);
-	if (IS_ERR_OR_NULL(seb_handle)) {
-		ret = seb_handle ? PTR_ERR(seb_handle) : -EINVAL;
-		dev_err(&client->dev,"Failed to register with Slate event bridge, ret=%d\n", ret);
-		return ret;
-	}
-
-	info->seb_handle = seb_handle;
+	dev_info(&client->dev, "zinitix touch probe.\r\n");
 
 #if defined(CONFIG_PM_RUNTIME)
 	//pm_runtime_enable(&client->dev);
